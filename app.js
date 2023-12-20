@@ -69,7 +69,7 @@ class LinkedList {
     return current.data;
   }
 
-  //removes the last element from the list
+  // removes the last element from the list
   pop() {
     if (!this.listHeadItem) return null; // List is empty
 
@@ -89,9 +89,10 @@ class LinkedList {
     }
 
     previous.next = null;
+    this.listSize--;
   }
 
-  //returns true if the passed in value is in the list and otherwise returns false.
+  // returns true if the passed-in value is in the list and otherwise returns false
   contains(value) {
     let current = this.listHeadItem;
     while (current != null) {
@@ -101,14 +102,14 @@ class LinkedList {
     return false;
   }
 
-  //returns the index of the node containing value, or null if not found.
+  // returns the index of the node containing value, or null if not found
   find(value) {
-    let tmp = this.listHead;
+    let current = this.listHead;
     let index = 0;
 
-    while (tmp != null) {
-      if (tmp.value === value) return index; // If the current node's value matches the specified value, return the current index
-      tmp = tmp.nextNode;
+    while (current != null) {
+      if (current.value === value) return index; // If the current node's value matches the specified value, return the current index
+      current = current.nextNode;
       index++;
     }
 
@@ -149,7 +150,7 @@ class LinkedList {
       previous.next = newNode;
     }
   }
-  // removes the node at the given index
+
   // removes the node at the given index
   removeAt(index) {
     if (index < 0 || index >= this.size) {
