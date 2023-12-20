@@ -102,17 +102,17 @@ class LinkedList {
   }
 
   //returns the index of the node containing value, or null if not found.
-  find(value, current = this.listHead, index = 0) {
-    if (current === null) {
-      return null; // Return null if list is empty
+  find(value) {
+    let tmp = this.listHead;
+    let index = 0;
+
+    while (tmp != null) {
+      if (tmp.value === value) return index; // If the current node's value matches the specified value, return the current index
+      tmp = tmp.nextNode;
+      index++;
     }
 
-    if (current.value === value) {
-      return index; // Return the current index if there's a match
-    }
-
-    // Recursive case: Move to the next node and increment the index
-    return this.find(value, current.nextNode, index + 1);
+    return null; // If the value is not found in the list, return null
   }
 
   // prints LinkedList in console, the format should be: ( value ) -> ( value ) -> ( value ) -> null
@@ -129,11 +129,50 @@ class LinkedList {
     return result;
   }
 
-  // that inserts a new node with the provided value at the given index
-  insertAt(value, index) {}
+  // inserts a new node with the provided value at the given index
+  insertAt(value, index) {
+    const newNode = new Node(value);
 
-  // that removes the node at the given index
-  removeAt(index) {}
+    if (index < 0 || index > this.size) return; // Index out of bounds
+    if (index === 0 || null) {
+      this.prepend(value);
+    } else {
+      let current = this.listHeadItem;
+      let previous = null;
+
+      for (let i = 0; i < index; i++) {
+        previous = current;
+        current = current.next;
+      }
+
+      newNode.next = current;
+      previous.next = newNode;
+    }
+  }
+  // removes the node at the given index
+  // removes the node at the given index
+  removeAt(index) {
+    if (index < 0 || index >= this.size) {
+      // Index out of bounds
+      return;
+    }
+
+    if (index === 0) {
+      // Remove the node at the beginning
+      this.listHeadItem = this.listHeadItem.next;
+    } else {
+      let current = this.listHeadItem;
+      let previous = null;
+
+      for (let i = 0; i < index; i++) {
+        previous = current;
+        current = current.next;
+      }
+
+      // Remove the node at the specified index
+      previous.next = current.next;
+    }
+  }
 }
 
 class Node {
@@ -168,9 +207,19 @@ console.table({
   head: list.head,
   ["at 1"]: list.at(1),
 });
+
+list.pop();
 console.table({
-  "list after pop": list.toString(),
+  "after pop": list.toString(),
   "contains John?": list.contains("John"),
   "find Abraham": list.contains("Abraham"),
 });
-console.log(list.insertAt(null, 2));
+
+list.insertAt("Claudia", 2);
+console.log("after insert at 2", list.toString());
+
+list.insertAt("Jerry", 0);
+console.log("after insert at 0", list.toString());
+
+list.removeAt(3);
+console.log("after remove at 3", list.toString());
